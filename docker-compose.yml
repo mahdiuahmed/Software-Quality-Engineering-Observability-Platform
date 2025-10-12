@@ -1,0 +1,80 @@
+services:
+  db:
+    image: postgres:16
+    platform: linux/amd64
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: shopzen
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+  backend-tests:
+    build: ./backend
+    command: pytest
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  selenium:
+    image: seleniarm/standalone-chromium:latest
+    shm_size: 2gb
+    ports:
+      - "4444:4444"
+    depends_on:
+      - frontend
+
+  e2e-tests:
+    build:
+      context: ./frontend
+    command: >
+      sh -c "
+      echo '⏳ Waiting for Selenium...' &&
+      until nc -z selenium 4444; do sleep 1; done &&
+      echo '✅ Selenium ready!' &&
+      node tests/e2e/selenium-add-to-cart.test.js
+      "
+    depends_on:
+      - selenium
+      - frontend
+    environment:
+      - NODE_ENV=test
+    volumes:
+      - ./frontend:/app
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+
+volumes:
+  db_data:
