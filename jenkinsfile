@@ -1,40 +1,64 @@
 pipeline {
-  agent any
-  environment {
-    DOCKER_REGISTRY = 'gcr.io/your-project'  // or your ACR
-    IMAGE_FRONTEND = "${DOCKER_REGISTRY}/ecom-frontend:${env.BUILD_NUMBER}"
-    IMAGE_BACKEND  = "${DOCKER_REGISTRY}/ecom-backend:${env.BUILD_NUMBER}"
-  }
-  stages {
-    stage('Checkout') { steps { checkout scm } }
-    stage('Lint Frontend') { steps { sh 'cd frontend && npm ci && npm run lint' } }
-    stage('Unit Tests') {
-      parallel {
-        stage('Frontend Unit') { steps { sh 'cd frontend && npm ci && npm run test:unit' } }
-        stage('Backend Unit') { steps { sh 'cd backend && pip install -r requirements.txt && pytest -q' } }
-      }
+    agent any
+
+    environment {
+        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
     }
-    stage('Build & Dockerize') {
-      steps {
-        sh 'docker build -t $IMAGE_BACKEND ./backend'
-        sh 'docker build -t $IMAGE_FRONTEND ./frontend'
-      }
-    }
-    stage('Push') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-          sh 'echo $PASS | docker login -u $USER --password-stdin gcr.io'
-          sh 'docker push $IMAGE_BACKEND'
-          sh 'docker push $IMAGE_FRONTEND'
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
         }
-      }
+
+        stage('Build Containers') {
+            steps {
+                script {
+                    sh 'docker compose build'
+                }
+            }
+        }
+
+        stage('Run Backend Tests') {
+            steps {
+                script {
+                    sh 'docker compose run --rm backend-tests'
+                }
+            }
+        }
+
+        stage('Run Frontend Tests') {
+            steps {
+                script {
+                    sh 'docker compose run --rm e2e-tests'
+                }
+            }
+        }
+
+        stage('Run Analytics') {
+            steps {
+                script {
+                    sh 'docker compose run --rm analytics'
+                }
+            }
+        }
+
+        stage('Tear Down') {
+            steps {
+                script {
+                    sh 'docker compose down'
+                }
+            }
+        }
     }
-    stage('Deploy') {
-      steps {
-        // e.g. kubectl apply or gcloud run deploy; keep placeholder here
-        sh 'echo "Deploy to K8s/GCP/Azure here - using docker images above"'
-      }
+
+    post {
+        success {
+            echo "✅ CI pipeline completed successfully!"
+        }
+        failure {
+            echo "❌ CI pipeline failed!"
+        }
     }
-  }
-  post { always { junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml' } }
 }

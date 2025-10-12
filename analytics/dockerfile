@@ -1,0 +1,8 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY run-analytics.py /app/run-analytics.py
+
+RUN pip install pandas sqlalchemy psycopg2-binary
+
+CMD ["python", "run-analytics.py"]

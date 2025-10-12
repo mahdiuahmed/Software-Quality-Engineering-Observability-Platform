@@ -76,5 +76,29 @@ services:
     depends_on:
       - prometheus
 
+  analytics:
+    build: ./analytics
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+    volumes:
+      - ./analytics:/app
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - backend
+      - frontend
+      - db
+
 volumes:
   db_data:
+  jenkins_data:
