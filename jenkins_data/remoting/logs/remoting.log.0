@@ -1,12 +1,12 @@
-Oct 14, 2025 8:40:56 AM hudson.remoting.Launcher createEngine
+Oct 14, 2025 9:30:57 AM hudson.remoting.Launcher createEngine
 INFO: Setting up agent: shopzen-agent
-Oct 14, 2025 8:40:56 AM hudson.remoting.Engine startEngine
+Oct 14, 2025 9:30:57 AM hudson.remoting.Engine startEngine
 INFO: Using Remoting version: 3345.v03dee9b_f88fc
-Oct 14, 2025 8:40:56 AM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+Oct 14, 2025 9:30:57 AM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
 INFO: Using /home/jenkins/remoting as a remoting work directory
-Oct 14, 2025 8:40:56 AM hudson.remoting.Launcher$CuiListener status
+Oct 14, 2025 9:30:58 AM hudson.remoting.Launcher$CuiListener status
 INFO: Locating server among [http://jenkins:8080/]
-Oct 14, 2025 8:40:56 AM hudson.remoting.Launcher$CuiListener status
+Oct 14, 2025 9:30:58 AM hudson.remoting.Launcher$CuiListener status
 INFO: Could not locate server among [http://jenkins:8080/]; waiting 10 seconds before retry
 java.io.IOException: Failed to connect to http://jenkins:8080/tcpSlaveAgentListener/: Connection refused
 	at org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver.resolve(JnlpAgentEndpointResolver.java:230)
@@ -32,28 +32,3 @@ Caused by: java.net.ConnectException: Connection refused
 	at org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver.resolve(JnlpAgentEndpointResolver.java:227)
 	... 3 more
 
-Oct 14, 2025 8:41:06 AM hudson.remoting.Launcher$CuiListener status
-INFO: Locating server among [http://jenkins:8080/]
-Oct 14, 2025 8:41:06 AM org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver resolve
-INFO: Remoting server accepts the following protocols: [JNLP4-connect, Ping]
-Oct 14, 2025 8:41:06 AM hudson.remoting.Launcher$CuiListener status
-INFO: Agent discovery successful
-  Agent address: jenkins
-  Agent port:    50000
-  Identity:      c7:56:c1:5a:08:4d:f4:88:a8:40:5c:7a:eb:19:05:5c
-Oct 14, 2025 8:41:06 AM hudson.remoting.Launcher$CuiListener status
-INFO: Handshaking
-Oct 14, 2025 8:41:06 AM hudson.remoting.Launcher$CuiListener status
-INFO: Connecting to jenkins:50000
-Oct 14, 2025 8:41:06 AM hudson.remoting.Launcher$CuiListener status
-INFO: Server reports protocol JNLP4-connect-proxy not supported, skipping
-Oct 14, 2025 8:41:06 AM hudson.remoting.Launcher$CuiListener status
-INFO: Trying protocol: JNLP4-connect
-Oct 14, 2025 8:41:06 AM org.jenkinsci.remoting.protocol.impl.BIONetworkLayer$Reader run
-INFO: Waiting for ProtocolStack to start.
-Oct 14, 2025 8:41:07 AM hudson.remoting.Launcher$CuiListener status
-INFO: Remote identity confirmed: c7:56:c1:5a:08:4d:f4:88:a8:40:5c:7a:eb:19:05:5c
-Oct 14, 2025 8:41:07 AM hudson.remoting.Launcher$CuiListener status
-INFO: Connected
-Oct 14, 2025 8:57:35 AM org.eclipse.jgit.util.FS$FileStoreAttributes getFsResolution
-WARNING: Thread[ForkJoinPool.commonPool-worker-1,5,main]: got smaller file timestamp on /home/jenkins (/run/host_mark/Users), /home/jenkins/workspace/ShopZen CI/.git/objects: 2025-10-14T08:57:35Z < 2025-10-14T08:57:35.568349182Z. Aborting measurement at resolution PT0.431650818S.
