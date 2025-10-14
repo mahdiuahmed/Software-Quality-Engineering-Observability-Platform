@@ -54,6 +54,7 @@ services:
   e2e-tests:
     build:
       context: ./frontend
+    working_dir: /app
     command: >
       sh -c "
       echo '⏳ Waiting for Selenium...' &&
