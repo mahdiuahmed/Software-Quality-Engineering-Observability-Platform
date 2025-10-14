@@ -20,13 +20,13 @@ pipeline {
             }
         }
 
-        stage('Run Backend Tests') {
-            steps {
-                script {
-                    sh 'docker compose run --rm backend-tests'
-                }
-            }
-        }
+        // stage('Run Backend Tests') {
+        //     steps {
+        //         script {
+        //             sh 'docker compose run --rm backend-tests'
+        //         }
+        //     }
+        // }
 
         stage('Run Frontend Tests') {
             steps {

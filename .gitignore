@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 frontend/node_modules/
 node_modules/
+
+/jenkins_data
+jenkins_data/
