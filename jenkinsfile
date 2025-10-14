@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     sh 'docker compose build'
-                    sh 'ls -R frontend/tests/e2e'
+                    sh 'ls -R'
                 }
             }
         }
