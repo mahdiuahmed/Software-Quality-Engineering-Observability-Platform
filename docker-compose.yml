@@ -67,8 +67,8 @@ services:
       - frontend
     environment:
       - NODE_ENV=test
-    volumes:
-      - ./frontend:/app
+    # volumes:
+    #   - ./frontend:/app
 
   prometheus:
     image: prom/prometheus:latest
