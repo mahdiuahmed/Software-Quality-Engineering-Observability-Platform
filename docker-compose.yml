@@ -87,8 +87,6 @@ services:
       - db
     environment:
       - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
-    volumes:
-      - ./analytics:/app
 
   jenkins:
     image: jenkins/jenkins:lts
