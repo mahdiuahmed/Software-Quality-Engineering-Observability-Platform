@@ -1,0 +1,30 @@
+Oct 14, 2025 7:57:49 AM hudson.remoting.Launcher createEngine
+INFO: Setting up agent: shopzen-agent
+Oct 14, 2025 7:57:50 AM hudson.remoting.Engine startEngine
+INFO: Using Remoting version: 3345.v03dee9b_f88fc
+Oct 14, 2025 7:57:50 AM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using /home/jenkins/remoting as a remoting work directory
+Oct 14, 2025 7:57:50 AM hudson.remoting.Launcher$CuiListener status
+INFO: Locating server among [http://jenkins:8080/]
+Oct 14, 2025 7:57:50 AM org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver resolve
+INFO: Remoting server accepts the following protocols: [JNLP4-connect, Ping]
+Oct 14, 2025 7:57:50 AM hudson.remoting.Launcher$CuiListener status
+INFO: Could not locate server among [http://jenkins:8080/]; waiting 10 seconds before retry
+java.io.IOException: http://jenkins:8080/tcpSlaveAgentListener/ appears to be publishing an invalid X-Instance-Identity.
+	at org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver.resolve(JnlpAgentEndpointResolver.java:300)
+	at hudson.remoting.Engine.innerRun(Engine.java:1001)
+	at hudson.remoting.Engine.runTcp(Engine.java:621)
+	at hudson.remoting.Engine.run(Engine.java:562)
+
+Oct 14, 2025 7:58:00 AM hudson.remoting.Launcher$CuiListener status
+INFO: Locating server among [http://jenkins:8080/]
+Oct 14, 2025 7:58:00 AM org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver resolve
+INFO: Remoting server accepts the following protocols: [JNLP4-connect, Ping]
+Oct 14, 2025 7:58:00 AM hudson.remoting.Launcher$CuiListener status
+INFO: Could not locate server among [http://jenkins:8080/]; waiting 10 seconds before retry
+java.io.IOException: http://jenkins:8080/tcpSlaveAgentListener/ appears to be publishing an invalid X-Instance-Identity.
+	at org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver.resolve(JnlpAgentEndpointResolver.java:300)
+	at hudson.remoting.Engine.innerRun(Engine.java:1001)
+	at hudson.remoting.Engine.runTcp(Engine.java:621)
+	at hudson.remoting.Engine.run(Engine.java:562)
+

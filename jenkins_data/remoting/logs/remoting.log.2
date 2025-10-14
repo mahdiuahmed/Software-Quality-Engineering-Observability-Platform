@@ -1,0 +1,57 @@
+Oct 14, 2025 8:20:08 AM hudson.remoting.Launcher createEngine
+INFO: Setting up agent: shopzen-agent
+Oct 14, 2025 8:20:08 AM hudson.remoting.Engine startEngine
+INFO: Using Remoting version: 3345.v03dee9b_f88fc
+Oct 14, 2025 8:20:08 AM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using /home/jenkins/remoting as a remoting work directory
+Oct 14, 2025 8:20:08 AM hudson.remoting.Launcher$CuiListener status
+INFO: Locating server among [http://jenkins:8080/]
+Oct 14, 2025 8:20:08 AM hudson.remoting.Launcher$CuiListener status
+INFO: Could not locate server among [http://jenkins:8080/]; waiting 10 seconds before retry
+java.io.IOException: Failed to connect to http://jenkins:8080/tcpSlaveAgentListener/: Connection refused
+	at org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver.resolve(JnlpAgentEndpointResolver.java:230)
+	at hudson.remoting.Engine.innerRun(Engine.java:1001)
+	at hudson.remoting.Engine.runTcp(Engine.java:621)
+	at hudson.remoting.Engine.run(Engine.java:562)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Unknown Source)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(Unknown Source)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source)
+	at java.base/java.net.Socket.connect(Unknown Source)
+	at java.base/sun.net.NetworkClient.doConnect(Unknown Source)
+	at java.base/sun.net.www.http.HttpClient.openServer(Unknown Source)
+	at java.base/sun.net.www.http.HttpClient.openServer(Unknown Source)
+	at java.base/sun.net.www.http.HttpClient.<init>(Unknown Source)
+	at java.base/sun.net.www.http.HttpClient.New(Unknown Source)
+	at java.base/sun.net.www.http.HttpClient.New(Unknown Source)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(Unknown Source)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(Unknown Source)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(Unknown Source)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(Unknown Source)
+	at org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver.resolve(JnlpAgentEndpointResolver.java:227)
+	... 3 more
+
+Oct 14, 2025 8:20:18 AM hudson.remoting.Launcher$CuiListener status
+INFO: Locating server among [http://jenkins:8080/]
+Oct 14, 2025 8:20:18 AM org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver resolve
+INFO: Remoting server accepts the following protocols: [JNLP4-connect, Ping]
+Oct 14, 2025 8:20:18 AM hudson.remoting.Launcher$CuiListener status
+INFO: Agent discovery successful
+  Agent address: jenkins
+  Agent port:    50000
+  Identity:      c7:56:c1:5a:08:4d:f4:88:a8:40:5c:7a:eb:19:05:5c
+Oct 14, 2025 8:20:18 AM hudson.remoting.Launcher$CuiListener status
+INFO: Handshaking
+Oct 14, 2025 8:20:18 AM hudson.remoting.Launcher$CuiListener status
+INFO: Connecting to jenkins:50000
+Oct 14, 2025 8:20:18 AM hudson.remoting.Launcher$CuiListener status
+INFO: Server reports protocol JNLP4-connect-proxy not supported, skipping
+Oct 14, 2025 8:20:18 AM hudson.remoting.Launcher$CuiListener status
+INFO: Trying protocol: JNLP4-connect
+Oct 14, 2025 8:20:18 AM org.jenkinsci.remoting.protocol.impl.BIONetworkLayer$Reader run
+INFO: Waiting for ProtocolStack to start.
+Oct 14, 2025 8:20:19 AM hudson.remoting.Launcher$CuiListener status
+INFO: Remote identity confirmed: c7:56:c1:5a:08:4d:f4:88:a8:40:5c:7a:eb:19:05:5c
+Oct 14, 2025 8:20:19 AM hudson.remoting.Launcher$CuiListener status
+INFO: Connected

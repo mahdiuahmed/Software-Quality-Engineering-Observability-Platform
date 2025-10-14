@@ -6,6 +6,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: shopzen
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
     ports:
       - "5432:5432"
     volumes:
@@ -22,12 +27,14 @@ services:
   backend-tests:
     build: ./backend
     command: pytest
+    working_dir: /app
     volumes:
       - ./backend:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
 
   frontend:
     build: ./frontend
@@ -98,13 +105,17 @@ services:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
 
   jenkins-agent:
-    image: jenkins/inbound-agent:latest
+    build:
+      context: .
+      dockerfile: dockerfile.jenkins-agent
+    user: root
+    privileged: true
     container_name: jenkins-agent
     environment:
       - JENKINS_URL=http://jenkins:8080
       - JENKINS_AGENT_NAME=shopzen-agent
       - JENKINS_AGENT_WORKDIR=/home/jenkins
-      - JENKINS_SECRET=88b765f894ef5dfd6bc5f0a231524feeb0390c36a038eab048211516bbc16a1b
+      - JENKINS_SECRET=d443b8bb03e3512520824699cb107c8894497b24b602521765c557cbd3f889c9
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./jenkins_data:/home/jenkins
