@@ -15,8 +15,9 @@ pipeline {
         stage('Build Containers') {
             steps {
                 script {
+                    sh 'pwd'
+                    sh 'ls -la'
                     sh 'docker compose build'
-                    sh 'ls -R'
                 }
             }
         }
@@ -24,7 +25,7 @@ pipeline {
         stage('Run Backend Tests') {
             steps {
                 script {
-                    sh 'docker compose run --rm backend-tests'
+                    sh 'docker compose run --rm backend-tests pytest /app/test'
                 }
             }
         }

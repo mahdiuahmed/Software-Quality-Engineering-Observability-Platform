@@ -117,11 +117,11 @@ services:
     environment:
       - JENKINS_URL=http://jenkins:8080
       - JENKINS_AGENT_NAME=shopzen-agent
-      - JENKINS_AGENT_WORKDIR=/home/jenkins
+      - JENKINS_AGENT_WORKDIR=/var/jenkins/agent
       - JENKINS_SECRET=726d87093cd574116efb379b43b2aa180c9414ac372d8489adee4e8445f14999
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./jenkins_data:/home/jenkins
+      - ./jenkins_data:/var/jenkins/agent
     depends_on:
       - jenkins
 
