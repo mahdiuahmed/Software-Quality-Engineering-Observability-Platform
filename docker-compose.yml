@@ -157,8 +157,6 @@ services:
   backend-tests:
     build: ./backend
     command: pytest --disable-pytest-warnings
-    volumes:
-      - ./backend:/app
     depends_on:
       - db
     environment:
