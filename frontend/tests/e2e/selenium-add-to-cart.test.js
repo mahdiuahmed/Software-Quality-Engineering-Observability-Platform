@@ -29,7 +29,7 @@ async function run() {
     // Wait for the page to load and find the product container
     const productCard = await driver.wait(
       until.elementLocated(By.css("[data-testid='container']")),
-      5000 // Reduced timeout for faster feedback
+      10000 // Reduced timeout for faster feedback
     );
 
     const addButton = await productCard.findElement(

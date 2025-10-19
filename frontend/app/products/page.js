@@ -26,7 +26,10 @@ export default function ProductsPage() {
   ]);
 
   useEffect(() => {
-    const apiURL = process.env.NEXT_PUBLIC_API_URL;
+    const apiURL =
+      process.env.NODE_ENV === "production"
+        ? "http://frontend:3000"
+        : "http://localhost:4000";
 
     console.log("Environment:", process.env.NODE_ENV);
     console.log("Fetching from:", apiURL);
