@@ -25,7 +25,7 @@ pipeline {
         stage('Run Backend Tests') {
             steps {
                 script {
-                    sh 'docker compose run --rm backend-tests pytest /app/test'
+                    sh 'docker compose run --rm backend-tests pytest /app/tests'
                 }
             }
         }
