@@ -151,6 +151,8 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/shopzen
       FRONTEND_URL: http://localhost:3000 # For CORS
+    volumes:
+      - ./backend:/app
 
   backend-tests:
     build: ./backend
