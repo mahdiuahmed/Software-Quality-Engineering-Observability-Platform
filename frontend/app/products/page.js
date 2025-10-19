@@ -26,10 +26,23 @@ export default function ProductsPage() {
   ]);
 
   useEffect(() => {
-    fetch("http://backend:8000/products")
-      .then((res) => res.json())
+    const apiURL = process.env.NEXT_PUBLIC_API_URL;
+
+    console.log("Environment:", process.env.NODE_ENV);
+    console.log("Fetching from:", apiURL);
+
+    fetch(`${apiURL}/products`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then(setProducts)
-      .catch(console.error);
+      .catch((error) => {
+        console.error("Failed to fetch products:", error);
+        // Optional: Set some fallback data or error state
+      });
   }, []);
 
   return (

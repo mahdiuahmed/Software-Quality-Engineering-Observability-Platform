@@ -1,92 +1,99 @@
 services:
-  db:
-    image: postgres:16
-    platform: linux/amd64
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: shopzen
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
+  # db:
+  #   image: postgres:16
+  #   platform: linux/amd64
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: shopzen
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 5s
+  #     timeout: 3s
+  #     retries: 5
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - db_data:/var/lib/postgresql/data
 
-  backend:
-    build: ./backend
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+  # backend:
+  #   build: ./backend
+  #   ports:
+  #     - "8000:8000"
+  #   working_dir: /app
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+  #   volumes:
+  #     - ./backend:/app
 
-  backend-tests:
-    build: ./backend
-    command: pytest
-    working_dir: /app
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+  # backend-tests:
+  #   build: ./backend
+  #   command: pytest
+  #   working_dir: /app
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   environment:
+  #     - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+  #   volumes:
+  #     - ./backend:/app
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - backend
+  #   volumes:
+  #     - ./frontend:/app
 
-  selenium:
-    image: seleniarm/standalone-chromium:latest
-    shm_size: 2gb
-    ports:
-      - "4444:4444"
-    depends_on:
-      - frontend
+  # selenium:
+  #   image: seleniarm/standalone-chromium:latest
+  #   shm_size: 2gb
+  #   ports:
+  #     - "4444:4444"
+  #   depends_on:
+  #     - frontend
 
-  e2e-tests:
-    build:
-      context: ./frontend
-    working_dir: /app
-    command: >
-      sh -c "
-      echo '⏳ Waiting for Selenium...' &&
-      until nc -z selenium 4444; do sleep 1; done &&
-      echo '✅ Selenium ready!' &&
-      node tests/e2e/selenium-add-to-cart.test.js
-      "
-    depends_on:
-      - selenium
-      - frontend
-    environment:
-      - NODE_ENV=test
+  # e2e-tests:
+  #   build:
+  #     context: ./frontend
+  #   working_dir: /app
+  #   command: >
+  #     sh -c "
+  #     echo '⏳ Waiting for Selenium...' &&
+  #     until nc -z selenium 4444; do sleep 1; done &&
+  #     echo '✅ Selenium ready!' &&
+  #     node tests/e2e/selenium-add-to-cart.test.js
+  #     "
+  #   depends_on:
+  #     - selenium
+  #     - frontend
+  #   environment:
+  #     - NODE_ENV=test
 
-  prometheus:
-    image: prom/prometheus:latest
-    volumes:
-      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   volumes:
+  #     - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   ports:
+  #     - "9090:9090"
 
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3001:3000"
-    depends_on:
-      - prometheus
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   ports:
+  #     - "3001:3000"
+  #   depends_on:
+  #     - prometheus
 
-  analytics:
-    build: ./analytics
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+  # analytics:
+  #   build: ./analytics
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
 
   jenkins:
     image: jenkins/jenkins:lts
@@ -111,12 +118,106 @@ services:
       - JENKINS_URL=http://jenkins:8080
       - JENKINS_AGENT_NAME=shopzen-agent
       - JENKINS_AGENT_WORKDIR=/home/jenkins
-      - JENKINS_SECRET=d443b8bb03e3512520824699cb107c8894497b24b602521765c557cbd3f889c9
+      - JENKINS_SECRET=726d87093cd574116efb379b43b2aa180c9414ac372d8489adee4e8445f14999
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./jenkins_data:/home/jenkins
     depends_on:
       - jenkins
+
+  db:
+    image: postgres:16
+    platform: linux/amd64
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: shopzen
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+      FRONTEND_URL: http://localhost:3000 # For CORS
+
+  backend-tests:
+    build: ./backend
+    command: pytest --disable-pytest-warnings
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  selenium:
+    image: seleniarm/standalone-chromium:latest
+    shm_size: 2gb
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    depends_on:
+      - frontend
+    environment:
+      - NODE_ENV=production # This will make Next.js use .env.production
+
+  e2e-tests:
+    build:
+      context: ./frontend
+    command: >
+      sh -c "
+      echo '⏳ Waiting for frontend and selenium...' &&
+      until nc -z selenium 4444; do sleep 1; done &&
+      echo '✅ Services ready!' &&
+      IN_DOCKER=true node tests/e2e/selenium-add-to-cart.test.js
+      "
+    depends_on:
+      - selenium
+      - frontend
+    environment:
+      - NODE_ENV=test
+      - IN_DOCKER=true
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+    volumes:
+      - ./frontend:/app
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+
+  analytics:
+    build: ./analytics
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+    volumes:
+      - ./analytics:/app
 
 volumes:
   db_data:
