@@ -28,7 +28,7 @@ export default function ProductsPage() {
   useEffect(() => {
     const apiURL =
       process.env.NODE_ENV === "production"
-        ? "http://frontend:3000"
+        ? "http://backend:3000"
         : "http://localhost:4000";
 
     console.log("Environment:", process.env.NODE_ENV);
