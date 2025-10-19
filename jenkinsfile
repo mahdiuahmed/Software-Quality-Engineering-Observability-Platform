@@ -25,7 +25,20 @@ pipeline {
         stage('Run Backend Tests') {
             steps {
                 script {
-                    sh 'docker compose run --rm backend-tests pytest tests'
+                    sh '''
+                        echo "=== Verifying test files in backend-tests container ==="
+                        docker compose run --rm backend-tests bash -c "
+                            echo 'Current directory:'
+                            pwd
+                            echo 'Files in /app:'
+                            ls -la /app/
+                            echo 'Files in /app/tests:'
+                            ls -la /app/tests/
+                            echo 'Test files found:'
+                            find /app/tests -name '*.py' -type f
+                        "
+                    '''
+                    sh 'docker compose run --rm backend-tests'
                 }
             }
         }

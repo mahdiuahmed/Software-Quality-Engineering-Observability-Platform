@@ -1,31 +1,39 @@
-Oct 19, 2025 9:37:36 AM hudson.remoting.Launcher createEngine
+Oct 19, 2025 10:08:34 AM hudson.remoting.Launcher createEngine
 INFO: Setting up agent: shopzen-agent
-Oct 19, 2025 9:37:36 AM hudson.remoting.Engine startEngine
+Oct 19, 2025 10:08:34 AM hudson.remoting.Engine startEngine
 INFO: Using Remoting version: 3345.v03dee9b_f88fc
-Oct 19, 2025 9:37:36 AM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
-INFO: Using /home/jenkins/remoting as a remoting work directory
-Oct 19, 2025 9:37:36 AM hudson.remoting.Launcher$CuiListener status
+Oct 19, 2025 10:08:34 AM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using /var/jenkins/agent/remoting as a remoting work directory
+Oct 19, 2025 10:08:34 AM hudson.remoting.Launcher$CuiListener status
 INFO: Locating server among [http://jenkins:8080/]
-Oct 19, 2025 9:37:36 AM org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver resolve
+Oct 19, 2025 10:08:35 AM org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver resolve
 INFO: Remoting server accepts the following protocols: [JNLP4-connect, Ping]
-Oct 19, 2025 9:37:36 AM hudson.remoting.Launcher$CuiListener status
+Oct 19, 2025 10:08:35 AM hudson.remoting.Launcher$CuiListener status
 INFO: Agent discovery successful
   Agent address: jenkins
   Agent port:    50000
   Identity:      68:85:7f:6f:25:b0:3d:61:be:cb:b1:a6:25:69:f9:51
-Oct 19, 2025 9:37:36 AM hudson.remoting.Launcher$CuiListener status
+Oct 19, 2025 10:08:35 AM hudson.remoting.Launcher$CuiListener status
 INFO: Handshaking
-Oct 19, 2025 9:37:36 AM hudson.remoting.Launcher$CuiListener status
+Oct 19, 2025 10:08:35 AM hudson.remoting.Launcher$CuiListener status
 INFO: Connecting to jenkins:50000
-Oct 19, 2025 9:37:36 AM hudson.remoting.Launcher$CuiListener status
+Oct 19, 2025 10:08:35 AM hudson.remoting.Launcher$CuiListener status
 INFO: Server reports protocol JNLP4-connect-proxy not supported, skipping
-Oct 19, 2025 9:37:36 AM hudson.remoting.Launcher$CuiListener status
+Oct 19, 2025 10:08:35 AM hudson.remoting.Launcher$CuiListener status
 INFO: Trying protocol: JNLP4-connect
-Oct 19, 2025 9:37:36 AM org.jenkinsci.remoting.protocol.impl.BIONetworkLayer$Reader run
+Oct 19, 2025 10:08:35 AM org.jenkinsci.remoting.protocol.impl.BIONetworkLayer$Reader run
 INFO: Waiting for ProtocolStack to start.
-Oct 19, 2025 9:37:37 AM hudson.remoting.Launcher$CuiListener status
+Oct 19, 2025 10:08:35 AM hudson.remoting.Launcher$CuiListener status
 INFO: Remote identity confirmed: 68:85:7f:6f:25:b0:3d:61:be:cb:b1:a6:25:69:f9:51
-Oct 19, 2025 9:37:37 AM hudson.remoting.Launcher$CuiListener status
+Oct 19, 2025 10:08:35 AM hudson.remoting.Launcher$CuiListener status
 INFO: Connected
-Oct 19, 2025 9:49:25 AM org.eclipse.jgit.util.FS$FileStoreAttributes getFsResolution
-WARNING: Thread[ForkJoinPool.commonPool-worker-1,5,main]: got smaller file timestamp on /home/jenkins (/run/host_mark/Users), /home/jenkins/workspace/ShopZen CI/.git/objects: 2025-10-19T09:49:25Z < 2025-10-19T09:49:25.649932195Z. Aborting measurement at resolution PT0.350067805S.
+Oct 19, 2025 10:08:53 AM org.eclipse.jgit.util.FS$FileStoreAttributes getFsResolution
+WARNING: Thread[ForkJoinPool.commonPool-worker-1,5,main]: got smaller file timestamp on /var/jenkins/agent (/run/host_mark/Users), /var/jenkins/agent/workspace/ShopZen CI/.git/objects: 2025-10-19T10:08:53Z < 2025-10-19T10:08:53.559718657Z. Aborting measurement at resolution PT0.440281343S.
+Oct 19, 2025 10:24:42 AM hudson.remoting.Request$2 run
+INFO: Failed to send back a reply to the request UserRequest:hudson.FilePath$Mkdirs@3be9773a: hudson.remoting.ChannelClosedException: Channel "unknown": Protocol stack cannot write data anymore. It is not open for write
+Oct 19, 2025 10:24:42 AM hudson.remoting.Launcher$CuiListener status
+INFO: Terminated
+Oct 19, 2025 10:24:52 AM hudson.remoting.Launcher$CuiListener status
+INFO: Performing onReconnect operation.
+Oct 19, 2025 10:24:52 AM jenkins.slaves.restarter.JnlpSlaveRestarterInstaller$EngineListenerAdapterImpl onReconnect
+INFO: Restarting agent via jenkins.slaves.restarter.UnixSlaveRestarter@66a07cbf
