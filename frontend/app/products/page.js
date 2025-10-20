@@ -28,8 +28,8 @@ export default function ProductsPage() {
   useEffect(() => {
     const apiURL =
       process.env.NODE_ENV === "production"
-        ? "http://backend:8000/products"
-        : "http://localhost:8000/products";
+        ? "http://backend:8000"
+        : "http://localhost:8000";
 
     console.log("Environment:", process.env.NODE_ENV);
     console.log("Fetching from:", apiURL);
