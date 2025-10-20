@@ -1,6 +1,10 @@
 pipeline {
     agent { label 'shopzen-agent' }
 
+    environment {
+        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -13,30 +17,8 @@ pipeline {
                 script {
                     sh 'pwd'
                     sh 'ls -la'
-                    sh 'docker compose build --no-cache'
-                }
-            }
-        }
-
-        stage('Start Infrastructure') {
-            steps {
-                script {
-                    // Start only the core infrastructure
-                    sh 'docker compose up -d db backend frontend selenium'
-                    
-                    // Wait for services to be ready
-                    sh '''
-                        echo "Waiting for database..."
-                        until docker compose exec db pg_isready -U postgres; do sleep 2; done
-                        
-                        echo "Waiting for backend..."
-                        until curl -f http://backedn:8000 > /dev/null 2>&1; do sleep 5; done
-                        
-                        echo "Waiting for frontend..."
-                        until curl -f http://frontend:3000 > /dev/null 2>&1; do sleep 5; done
-                        
-                        echo "All infrastructure services ready!"
-                    '''
+                    sh 'docker compose build'
+                    sh 'docker compose up -d db backend frontend'
                 }
             }
         }
@@ -44,6 +26,19 @@ pipeline {
         stage('Run Backend Tests') {
             steps {
                 script {
+                    sh '''
+                        echo "=== Verifying test files in backend-tests container ==="
+                        docker compose run --rm backend-tests bash -c "
+                            echo 'Current directory:'
+                            pwd
+                            echo 'Files in /app:'
+                            ls -la /app/
+                            echo 'Files in /app/tests:'
+                            ls -la /app/tests/
+                            echo 'Test files found:'
+                            find /app/tests -name '*.py' -type f
+                        "
+                    '''
                     sh 'docker compose run --rm backend-tests'
                 }
             }
@@ -75,9 +70,6 @@ pipeline {
     }
 
     post {
-        always {
-            sh 'docker compose down'  // Ensure cleanup
-        }
         success {
             echo "✅ CI pipeline completed successfully!"
         }
