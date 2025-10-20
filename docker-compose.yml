@@ -1,100 +1,4 @@
 services:
-  # db:
-  #   image: postgres:16
-  #   platform: linux/amd64
-  #   environment:
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #     POSTGRES_DB: shopzen
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
-  #     interval: 5s
-  #     timeout: 3s
-  #     retries: 5
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - db_data:/var/lib/postgresql/data
-
-  # backend:
-  #   build: ./backend
-  #   ports:
-  #     - "8000:8000"
-  #   working_dir: /app
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/shopzen
-  #   volumes:
-  #     - ./backend:/app
-
-  # backend-tests:
-  #   build: ./backend
-  #   command: pytest
-  #   working_dir: /app
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #   environment:
-  #     - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
-  #   volumes:
-  #     - ./backend:/app
-
-  # frontend:
-  #   build: ./frontend
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - backend
-  #   volumes:
-  #     - ./frontend:/app
-
-  # selenium:
-  #   image: seleniarm/standalone-chromium:latest
-  #   shm_size: 2gb
-  #   ports:
-  #     - "4444:4444"
-  #   depends_on:
-  #     - frontend
-
-  # e2e-tests:
-  #   build:
-  #     context: ./frontend
-  #   working_dir: /app
-  #   command: >
-  #     sh -c "
-  #     echo '⏳ Waiting for Selenium...' &&
-  #     until nc -z selenium 4444; do sleep 1; done &&
-  #     echo '✅ Selenium ready!' &&
-  #     node tests/e2e/selenium-add-to-cart.test.js
-  #     "
-  #   depends_on:
-  #     - selenium
-  #     - frontend
-  #   environment:
-  #     - NODE_ENV=test
-
-  # prometheus:
-  #   image: prom/prometheus:latest
-  #   volumes:
-  #     - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-  #   ports:
-  #     - "9090:9090"
-
-  # grafana:
-  #   image: grafana/grafana:latest
-  #   ports:
-  #     - "3001:3000"
-  #   depends_on:
-  #     - prometheus
-
-  # analytics:
-  #   build: ./analytics
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
-
   jenkins:
     image: jenkins/jenkins:lts
     user: root
@@ -147,27 +51,41 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/shopzen
-      FRONTEND_URL: http://localhost:3000 # For CORS
-    volumes:
-      - ./backend:/app
+      FRONTEND_URL: http://localhost:3000
+    # REMOVE volumes to avoid conflicts
+    # volumes:
+    #   - ./backend:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped # Add automatic restart
 
   backend-tests:
     build: ./backend
-    command: pytest --disable-pytest-warnings
+    command: pytest /app/tests/ -v --disable-pytest-warnings
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
+    # NO volumes to use the built image
 
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+    # NO volumes to use the built image
 
   selenium:
     image: seleniarm/standalone-chromium:latest
@@ -177,8 +95,11 @@ services:
       - "7900:7900"
     depends_on:
       - frontend
-    environment:
-      - NODE_ENV=production # This will make Next.js use .env.production
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   e2e-tests:
     build:
@@ -186,20 +107,19 @@ services:
     command: >
       sh -c "
       echo '⏳ Waiting for frontend and selenium...' &&
-      until nc -z selenium 4444; do sleep 1; done &&
-      echo '✅ Services ready!' &&
+      until curl -f http://frontend:3000/products > /dev/null 2>&1; do sleep 2; done &&
+      until curl -f http://selenium:4444/wd/hub/status > /dev/null 2>&1; do sleep 2; done &&
+      echo '✅ All services ready!' &&
       IN_DOCKER=true node tests/e2e/selenium-add-to-cart.test.js
       "
     depends_on:
-      - selenium
-      - frontend
+      selenium:
+        condition: service_healthy
+      frontend:
+        condition: service_started
     environment:
       - NODE_ENV=test
       - IN_DOCKER=true
-    # extra_hosts:
-    #   - "host.docker.internal:host-gateway"
-    # volumes:
-    #   - ./frontend:/app
 
   prometheus:
     image: prom/prometheus:latest
@@ -221,8 +141,6 @@ services:
       - db
     environment:
       - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
-    # volumes:
-    #   - ./analytics:/app
 
 volumes:
   db_data:
