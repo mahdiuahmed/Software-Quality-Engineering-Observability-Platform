@@ -22,7 +22,6 @@ async function run() {
   try {
     // Use the frontend URL that the browser can access
     await driver.get(`${frontendUrl}/products`);
-    await driver.get("http://backend:8000/products");
 
     console.log("Current URL:", await driver.getCurrentUrl());
     console.log("Page title:", await driver.getTitle());
