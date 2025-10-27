@@ -1,6 +1,8 @@
 {
-  "require": ["@babel/register"],
-  "extension": ["js", "jsx"],
-  "spec": ["./tests/**/*.test.js"],
+  "require": ["@babel/register", "./tests/mocha-tests/unit-test-setup.js"],
+  "extension": ["js", "jsx", "cjs"],
+  "spec": ["./tests/mocha-tests"],
+  "loader": "jsdom-global/register.js",
+  "node-option": ["experimental-specifier-resolution=node"],
   "recursive": true
 }

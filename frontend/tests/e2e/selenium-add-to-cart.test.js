@@ -20,16 +20,14 @@ async function run() {
     .build();
 
   try {
-    // Use the frontend URL that the browser can access
     await driver.get(`${frontendUrl}/products`);
 
     console.log("Current URL:", await driver.getCurrentUrl());
     console.log("Page title:", await driver.getTitle());
 
-    // Wait for the page to load and find the product container
     const productCard = await driver.wait(
       until.elementLocated(By.css("[data-testid='container']")),
-      10000 // Reduced timeout for faster feedback
+      10000
     );
 
     const addButton = await productCard.findElement(
@@ -40,11 +38,10 @@ async function run() {
     console.log("✅ Add to cart clicked successfully");
   } catch (error) {
     console.error("Test failed:", error);
-    // Take screenshot for debugging
+
     const screenshot = await driver.takeScreenshot();
     console.log("Screenshot (base64):", screenshot.substring(0, 100) + "...");
 
-    // Get page source for debugging
     const pageSource = await driver.getPageSource();
     console.log("Page source (first 500 chars):", pageSource.substring(0, 500));
   } finally {

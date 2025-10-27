@@ -44,7 +44,6 @@ export default function ProductsPage() {
       .then(setProducts)
       .catch((error) => {
         console.error("Failed to fetch products:", error);
-        // Optional: Set some fallback data or error state
       });
   }, []);
 
@@ -62,15 +61,9 @@ export default function ProductsPage() {
               description={p.description}
               price={p.price}
             />
-            // <li key={p.id} className="p-4 border rounded-lg" data-testid="list">
-            //   <h2 className="font-semibold">{p.name}</h2>
-            //   <p>{p.description}</p>
-            //   <p>${p.price}</p>
-            // </li>
           ))}
         </ul>
       )}
-      {/* <Button data-testid="button">TEST</Button> */}
     </main>
   );
 }

@@ -24,9 +24,8 @@ def test_get_products():
 def test_create_product_missing_field():
     response = client.post("/products/", json={
         "name": "Incomplete Product"
-        # missing price
     })
-    assert response.status_code == 422  # FastAPI returns 422 for validation errors
+    assert response.status_code == 422 
 
 
 def test_create_product_invalid_price():

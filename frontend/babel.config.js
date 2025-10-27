@@ -1,6 +1,16 @@
-export default {
-  presets: [
-    ["@babel/preset-env", { targets: { node: "current" } }],
+module.exports = (api) => {
+  // Cache configuration is a required option
+  api.cache(false);
+
+  const presets = [
+    [
+      "@babel/preset-env",
+      {
+        useBuiltIns: false,
+      },
+    ],
     "@babel/preset-react",
-  ],
+  ];
+
+  return { presets };
 };

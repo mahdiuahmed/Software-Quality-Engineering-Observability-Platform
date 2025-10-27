@@ -18,16 +18,13 @@ services:
     user: root
     privileged: true
     container_name: jenkins-agent
-    environment:
-      - JENKINS_URL=http://jenkins:8080
-      - JENKINS_AGENT_NAME=shopzen-agent
-      - JENKINS_AGENT_WORKDIR=/var/jenkins/agent
-      - JENKINS_SECRET=726d87093cd574116efb379b43b2aa180c9414ac372d8489adee4e8445f14999
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./jenkins_data:/var/jenkins/agent
     depends_on:
       - jenkins
+    env_file:
+      - .env
 
   db:
     image: postgres:16
@@ -55,8 +52,6 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/shopzen
       FRONTEND_URL: http://localhost:3000 # For CORS
-    # volumes:
-    #   - ./backend:/app
 
   backend-tests:
     build: ./backend
@@ -100,20 +95,19 @@ services:
     environment:
       - NODE_ENV=test
       - IN_DOCKER=true
-    # extra_hosts:
-    #   - "host.docker.internal:host-gateway"
-    # volumes:
-    #   - ./frontend:/app
 
   prometheus:
     image: prom/prometheus:latest
     volumes:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
     ports:
       - "9090:9090"
 
   grafana:
     image: grafana/grafana:latest
+    volumes:
+      - grafana_data:/var/lib/grafana
     ports:
       - "3001:3000"
     depends_on:
@@ -125,9 +119,9 @@ services:
       - db
     environment:
       - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/shopzen
-    # volumes:
-    #   - ./analytics:/app
 
 volumes:
   db_data:
   jenkins_data:
+  prometheus_data:
+  grafana_data:
