@@ -70,6 +70,7 @@ services:
 
   selenium:
     image: seleniarm/standalone-chromium:latest
+    # image: selenium/standalone-chromium:latest // Use this line instead for x86_64 systems
     shm_size: 2gb
     ports:
       - "4444:4444"
