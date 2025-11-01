@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Vercel Deploy](https://deploy-badge.vercel.app/vercel/uptime-monitor-weld)
+![Made with Next.js](https://img.shields.io/badge/Made%20with-Next.js-000?logo=next.js)
+![AWS](https://img.shields.io/badge/Cloud--Infrastructure-AWS-FF9900)
+![Cypress](https://img.shields.io/badge/Testing-Cypress-69D3A7?logo=cypress&logoColor=white)
 
-## Getting Started
+# ⚙️📊 Software Quality Engineering & Observability Platform
 
-First, run the development server:
+A multi-service application using Docker Compose, orchestrating frontend (Next.js), backend (FastAPI + SQLAlchemy), and PostgreSQL. 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This project is heavily focused on software quality engineering, incorporating robust testing strategies, CI/CD pipelines, and observability tools like Prometheus and Grafana to monitor application performance and reliability.
+
+---
+
+## 📋 Table of Contents
+
+- [💻 Technologies Used](#technologies-used)
+- [🚀 Getting Started & Prerequisites](#getting-started-&-prerequisites)
+- [🧪 Testing](#testing)
+- [🤝 Contributing](#contributing)
+- [📜 License](#license)
+
+---
+
+## 💻 Technologies Used
+- **Frontend:** Next.js(App Router), Tailwind CSS, ShadCN UI
+- **Backend:** Python, SQLAlchemy, PostgreSQL, FastAPI
+- **Infra & Monitoring:** Prometheus, Grafana
+- **Unit & Integration Testing:** Pytest, Mocha
+- **E2E Testing:** Selenium
+- **CI/CD:** Jenkins
+- **Analytics:** Pandas (Python)
+
+## 🚀 Getting Started & Prerequisites
+
+To get started with this project, you will need to have [Node.js](https://nodejs.org) and [Docker Desktop](https://docker.com) installed on your machine. Once you have that installed, follow these steps:
+
+1. Clone the repository to your local machine:
+```
+git clone https://github.com/mahdiuahmed/Software-Quality-Engineering-Observability-Platform.git
+```
+2. :
+```
+docker build -t notavox:latest .
+docker run -p 3000:3000 notavox:latest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧪 Testing
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+The testing suite we are using for end-to-end testing is [Cypress](https://www.cypress.io/#create)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Run cypress and select e2e testing to view the specs to run:
+```
+npm run cypress:open
+```
 
-## Learn More
+## 🤝 Contributing
 
-To learn more about Next.js, take a look at the following resources:
+Contributions are welcome! To contribute to this project, follow these steps:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Fork the repository
+2. Create a new branch (`git checkout -b new-feature`)
+3. Make your changes
+4. Commit your changes (`git commit -am 'Added some feature'`)
+5. Push to the branch (`git push origin new-feature`)
+6. Create a new Pull Request
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## 📄 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
