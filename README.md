@@ -1,7 +1,15 @@
-![Vercel Deploy](https://deploy-badge.vercel.app/vercel/uptime-monitor-weld)
-![Made with Next.js](https://img.shields.io/badge/Made%20with-Next.js-000?logo=next.js)
-![AWS](https://img.shields.io/badge/Cloud--Infrastructure-AWS-FF9900)
-![Cypress](https://img.shields.io/badge/Testing-Cypress-69D3A7?logo=cypress&logoColor=white)
+![Frontend](https://img.shields.io/badge/Frontend-Next.js-000?logo=next.js)
+![Python](https://img.shields.io/badge/Language-Python-3776AB?logo=python)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi)
+![SQLAlchemy](https://img.shields.io/badge/ORM-SQLAlchemy-000?logo=sqlalchemy)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?logo=postgresql)
+![Prometheus](https://img.shields.io/badge/Monitoring-Prometheus-E6522C?logo=prometheus)
+![Grafana](https://img.shields.io/badge/Visualization-Grafana-F46800?logo=grafana)
+![Pytest](https://img.shields.io/badge/Testing-Pytest-0A9EDC?logo=pytest)
+![Mocha](https://img.shields.io/badge/Testing-Mocha-8D6748?logo=mocha)
+![Selenium](https://img.shields.io/badge/Testing-Selenium-43B02A?logo=selenium)
+![Jenkins](https://img.shields.io/badge/CI/CD-Jenkins-D24939?logo=jenkins)
+![Pandas](https://img.shields.io/badge/Analytics-Pandas-150458?logo=pandas)
 
 # ⚙️📊 Software Quality Engineering & Observability Platform
 
@@ -38,10 +46,13 @@ To get started with this project, you will need to have [Node.js](https://nodejs
 ```
 git clone https://github.com/mahdiuahmed/Software-Quality-Engineering-Observability-Platform.git
 ```
-2. :
+2. To start up the frontend, backend and DB In the project root:
 ```
-docker build -t notavox:latest .
-docker run -p 3000:3000 notavox:latest
+docker compose up --build frontend
+```
+3. To run ...:
+```
+docker compose up --build frontend
 ```
 
 ## 🧪 Testing
