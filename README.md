@@ -23,7 +23,10 @@ This project is heavily focused on software quality engineering, incorporating r
 
 - [💻 Technologies Used](#technologies-used)
 - [🚀 Getting Started & Prerequisites](#getting-started-&-prerequisites)
-- [🧪 Testing](#testing)
+- [🧪 Testing & Analytics](#testing-&-analytics)
+- [📊 Monitoring the System](#monitoring-the-system)
+- [🔄 Stopping the System](#stopping-the-system)
+- [🧩 Running Jenkins CI/CD](#running-jenkins-ci/cd)
 - [🤝 Contributing](#contributing)
 - [📜 License](#license)
 
@@ -38,6 +41,8 @@ This project is heavily focused on software quality engineering, incorporating r
 - **CI/CD:** Jenkins
 - **Analytics:** Pandas (Python)
 
+---
+
 ## 🚀 Getting Started & Prerequisites
 
 To get started with this project, you will need to have [Node.js](https://nodejs.org) and [Docker Desktop](https://docker.com) installed on your machine. Once you have that installed, follow these steps:
@@ -48,21 +53,103 @@ git clone https://github.com/mahdiuahmed/Software-Quality-Engineering-Observabil
 ```
 2. To start up the frontend, backend and DB In the project root:
 ```
+docker compose up --build
+```
+3. Build and start all services:
+```
 docker compose up --build frontend
 ```
-3. To run ...:
+This will build and start the following services:
+| Service        | Description                     | Port                                                      |
+| -------------- | ------------------------------- | --------------------------------------------------------- |
+| **frontend**   | Next.js app (Tailwind + ShadCN) | [http://localhost:3000](http://localhost:3000)            |
+| **backend**    | FastAPI REST API                | [http://localhost:8000/docs](http://localhost:8000/docs)  |
+| **db**         | PostgreSQL database             | localhost:5432                                            |
+| **jenkins**    | CI/CD automation server         | [http://localhost:8080](http://localhost:8080)            |
+| **grafana**    | Dashboard & visualization       | [http://localhost:3001](http://localhost:3001)            |
+| **prometheus** | Metrics collector               | [http://localhost:9090](http://localhost:9090)            |
+| **selenium**   | E2E testing environment         | [http://localhost:7900](http://localhost:7900) (noVNC UI) |
+
+4. For Non-ARM Users (Windows/Linux/Intel Macs)
+By default, Selenium uses the ARM-compatible image seleniarm/standalone-chromium:latest.
+If your machine is not ARM64 (e.g., Intel), edit the Selenium service in docker-compose.yml:
 ```
-docker compose up --build frontend
+selenium:
+  image: selenium/standalone-chromium:latest
+  shm_size: 2gb
+  ports:
+    - "4444:4444"
+    - "7900:7900"
+```
+Then rebuild:
+```
+docker compose build selenium
+```
+---
+
+## 🧪 Testing & Analytics
+
+✅ Backend Tests (Pytest):
+```
+docker compose run --rm backend-tests
 ```
 
-## 🧪 Testing
-
-The testing suite we are using for end-to-end testing is [Cypress](https://www.cypress.io/#create)
-
-1. Run cypress and select e2e testing to view the specs to run:
+✅ Backend Tests (Pytest)
 ```
-npm run cypress:open
+
+docker compose run --rm backend-tests
 ```
+✅ Frontend Tests (Mocha)
+```
+
+docker exec -it frontend npm test:unit
+```
+
+✅ End-to-End Tests (Selenium)
+```
+docker compose run --rm e2e-tests
+```
+You can also visually inspect the test runs via the Selenium noVNC dashboard:
+👉 http://localhost:7900
+
+✅ Get analytics (Pandas)
+```
+docker compose run --rm analytics
+```
+
+---
+
+## 📊 Monitoring the System
+
+Prometheus and Grafana are preconfigured for observability.
+
+1. Go to Grafana → http://localhost:3001
+
+2. Add Prometheus as a data source (http://prometheus:9090)
+
+3. Import dashboards or create your own to monitor:
+  - API latency
+  - Error rates
+  - Container health
+  - Test success/failure trends
+
+---
+
+## 🔄 Stopping the System
+To gracefully shut everything down:
+```
+docker compose down
+```
+
+To remove all cached data (including PostgreSQL data):
+```
+docker compose down -v
+```
+---
+
+## 🧩 Running Jenkins CI/CD
+
+---
 
 ## 🤝 Contributing
 
