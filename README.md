@@ -1,5 +1,5 @@
 ![Frontend](https://img.shields.io/badge/Frontend-Next.js-000?logo=next.js)
-![Python](https://img.shields.io/badge/Language-Python-3776AB?logo=python)
+![Python](https://img.shields.io/badge/Backend-Python-3776AB?logo=python)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi)
 ![SQLAlchemy](https://img.shields.io/badge/ORM-SQLAlchemy-000?logo=sqlalchemy)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?logo=postgresql)
