@@ -85,6 +85,7 @@ Then rebuild:
 ```
 docker compose build selenium
 ```
+
 ---
 
 ## 🧪 Testing & Analytics
@@ -145,9 +146,33 @@ To remove all cached data (including PostgreSQL data):
 ```
 docker compose down -v
 ```
+
 ---
 
 ## 🧩 Running Jenkins CI/CD
+Once Jenkins is running on http://localhost:8080:
+
+1. Log in with your admin credentials (defined in your .env or docker-compose.yml). The .env:
+```ini
+JENKINS_URL=http://jenkins:8080
+JENKINS_AGENT_NAME=shopzen-agent
+JENKINS_AGENT_WORKDIR=/var/jenkins/agent
+JENKINS_SECRET=<...>
+```
+2. Install the plugins:
+- Docker Pipeline
+- GitHub Integration
+- Blue Ocean (modern UI)
+- Pipeline: Stage View
+- AnsiColor
+
+3. Create a new Pipeline project
+
+Point it to this repository’s GitHub URL
+
+Add your GitHub token under Jenkins credentials
+
+Run the pipeline → observe stages like build → test → analytics → deploy
 
 ---
 
