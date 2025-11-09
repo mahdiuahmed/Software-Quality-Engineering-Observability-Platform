@@ -21,7 +21,7 @@ This project is heavily focused on software quality engineering, incorporating r
 
 ## 📋 Table of Contents
 
-- [💻 Technologies Used](#technologies-used)
+- [💻 Technologies Used](##technologies-used)
 - [🚀 Getting Started & Prerequisites](#getting-started-&-prerequisites)
 - [🧪 Testing & Analytics](#testing-&-analytics)
 - [📊 Monitoring the System](#monitoring-the-system)
